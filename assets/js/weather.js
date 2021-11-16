@@ -64,7 +64,6 @@ function DisplayWeather(lat, lon, city) {
   fetch(apiUrl).then(function (responses) {
     if (responses.ok) {
       responses.json().then(function (data) {
-        console.log("API data: ", data);
         $("#results").html("");
         todaysWeather(data.current, city);
         fiveDayWeather(data.daily);
@@ -160,26 +159,32 @@ function fiveDayWeather(data) {
 
 // function to save past searches and hold then below searchbar
 function savePastSearch(city) {
-  for (var i = 0; i < 10; i++) {
-    localStorage.setItem("city" + [i], JSON.stringify(city));
-    pastSearches.push();
-  }
+  //   window.localStorage.getItem("city");
+  console.log(city);
+  pastSearches.push(city);
+  localStorage.setItem("city", JSON.stringify(pastSearches));
+
   console.log(pastSearches);
 }
 
 function loadPastSearches() {
-  var searchEl = document.getElementById("#search");
+  //   var searchEl = document.getElementById("#search");
 
-  var appendPastSearch = document.createElement("button");
-  appendPastSearch.classList = "btn btn-secondary";
-  appendPastSearch.textContent = "here";
-  searchEl.appendChild(appendPastSearch);
+  pastSearches.push(localStorage.getItem("city"));
+  console.log(pastSearches);
+
+  //   var appendPastSearch = document.createElement("button");
+  //   appendPastSearch.classList = "btn btn-secondary";
+  //   appendPastSearch.textContent = "here";
+  //   searchEl.appendChild(appendPastSearch);
+
+  //   window.localStorage.getItem("city");
 }
 
 locationInputEl.addEventListener("click", function () {
-  var x = $("#searchBar").val();
-  storeCurrentWeather(x);
-  savePastSearch(x);
+  var searchedItem = $("#searchBar").val();
+  storeCurrentWeather(searchedItem);
+  savePastSearch(searchedItem);
 });
 
-// loadPastSearches();
+loadPastSearches();
