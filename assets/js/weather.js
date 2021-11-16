@@ -2,8 +2,31 @@
 var apiKey = "38385dcf555e3ea5e07855383fd6123c";
 // placeholder for searching city/zipcode
 var locationInputEl = document.querySelector("#searchCity");
-
 var results = document.querySelector("#results");
+
+// arrays to hold days and months
+const weekday = new Array(7);
+weekday[0] = "Sun";
+weekday[1] = "Mon";
+weekday[2] = "Tues";
+weekday[3] = "Wed";
+weekday[4] = "Thur";
+weekday[5] = "Fri";
+weekday[6] = "Sat";
+
+const month = new Array(12);
+month[0] = "January";
+month[1] = "February";
+month[2] = "March";
+month[3] = "April";
+month[4] = "May";
+month[5] = "June";
+month[6] = "July";
+month[7] = "August";
+month[8] = "September";
+month[9] = "October";
+month[10] = "November";
+month[11] = "December";
 
 // get lat and lon from searching a location
 var storeCurrentWeather = function (city) {
@@ -49,18 +72,27 @@ function DisplayWeather(lat, lon, city) {
   });
 }
 
-// function to call today's weather
+// function to create today's weather forecast
 function todaysWeather(data, city) {
+  var date = new Date(data.dt * 1000);
+  var todaysDay = weekday[date.getDay()];
+  var todaysMonthDate = month[date.getMonth()] + " " + date.getDate();
+  var weatherIcon = data.weather[0].icon;
+  var iconUrl = `http://openweathermap.org/img/wn/${weatherIcon}.png`;
+
   var createParentDiv = document.createElement("div");
   createParentDiv.className = "border border-dark";
   results.appendChild(createParentDiv);
 
-  var addCity = document.createElement("h3");
-  addCity.textContent = city;
-  createParentDiv.appendChild(addCity);
+  var titleEl = document.createElement("h3");
+  titleEl.textContent = city + ": " + todaysDay + ", " + todaysMonthDate;
+  var weatherIconEl = document.createElement("img");
+  weatherIconEl.src = iconUrl;
+  titleEl.appendChild(weatherIconEl);
+  createParentDiv.appendChild(titleEl);
 
   var addTemp = document.createElement("p");
-  addTemp.textContent = "Temperature: " + data.temp + " F";
+  addTemp.textContent = "Temperature: " + data.temp + " °F";
   createParentDiv.appendChild(addTemp);
 
   var addWind = document.createElement("p");
@@ -68,7 +100,7 @@ function todaysWeather(data, city) {
   createParentDiv.appendChild(addWind);
 
   var addHumidity = document.createElement("p");
-  addHumidity.textContent = "Humidity: " + data.humidity;
+  addHumidity.textContent = "Humidity: " + data.humidity + "%";
   createParentDiv.appendChild(addHumidity);
 
   var addUv = document.createElement("p");
@@ -76,6 +108,7 @@ function todaysWeather(data, city) {
   createParentDiv.appendChild(addUv);
 }
 
+//function to create containers for 5 days weather forecast
 function fiveDayWeather(data) {
   var createContainerDiv = document.createElement("div");
   createContainerDiv.className = "container";
@@ -90,12 +123,28 @@ function fiveDayWeather(data) {
   createContainerDiv.appendChild(rowDiv);
 
   for (var i = 0; i < 5; i++) {
+    var date = new Date(data[i].dt * 1000);
+    var todaysDay = weekday[date.getDay()];
+    var todaysMonthDate = month[date.getMonth()] + " " + date.getDate();
+    var weatherIcon = data[i].weather[0].icon;
+    var iconUrl = `http://openweathermap.org/img/wn/${weatherIcon}.png`;
+
+    console.log(weatherIcon);
+
     var createParentDiv = document.createElement("div");
-    createParentDiv.className = "col-2 mx-1 border border-1 ";
+    createParentDiv.className =
+      "col-2 mx-1 border border-1 bg-primary bg-opacity-75";
     rowDiv.appendChild(createParentDiv);
 
+    var titleEl = document.createElement("h5");
+    titleEl.textContent = todaysDay + ", " + todaysMonthDate;
+    var weatherIconEl = document.createElement("img");
+    weatherIconEl.src = iconUrl;
+    titleEl.appendChild(weatherIconEl);
+    createParentDiv.appendChild(titleEl);
+
     var addTemp = document.createElement("p");
-    addTemp.textContent = "Temperature: " + data[i].temp.day + " F";
+    addTemp.textContent = "Temperature: " + data[i].temp.day + " °F";
     createParentDiv.appendChild(addTemp);
 
     var addWind = document.createElement("p");
@@ -103,7 +152,7 @@ function fiveDayWeather(data) {
     createParentDiv.appendChild(addWind);
 
     var addHumidity = document.createElement("p");
-    addHumidity.textContent = "Humidity: " + data[i].humidity;
+    addHumidity.textContent = "Humidity: " + data[i].humidity + "%";
     createParentDiv.appendChild(addHumidity);
   }
 }

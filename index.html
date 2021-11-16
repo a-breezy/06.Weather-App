@@ -21,17 +21,23 @@
       <!-- area to search for city as well as hold previous searches -->
       <section class="row">
         <div id="search" class="col-3">
-          <h3>Search for a City:</h3>
-          <input
-            id="searchBar"
-            type="text"
-            name="city-search"
-            placeholder="San Diego"
-          />
-          <button id="searchCity" class="btn btn-primary" type="button">
-            Search
-          </button>
-          <button id="recentSearch" class="btn-secondary"></button>
+          <h3 class="text-center">Search for a City:</h3>
+          <div class="input-group mb-3">
+            <input
+              class="form-control"
+              id="searchBar"
+              type="text"
+              name="city-search"
+              placeholder="San Diego"
+              aria-describedby="searchCity"
+            />
+            <button id="searchCity" class="btn btn-primary" type="button">
+              Search
+            </button>
+          </div>
+          <div class="mb-3 hide">
+            <button id="recentSearch" class="btn-secondary"></button>
+          </div>
         </div>
 
         <!-- section to hold current search results for 5 days weather -->
