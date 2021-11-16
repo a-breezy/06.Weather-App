@@ -28,6 +28,9 @@ month[9] = "October";
 month[10] = "November";
 month[11] = "December";
 
+// empty array to hold past searches
+var pastSearches = [];
+
 // get lat and lon from searching a location
 var storeCurrentWeather = function (city) {
   var apiURL =
@@ -81,7 +84,7 @@ function todaysWeather(data, city) {
   var iconUrl = `http://openweathermap.org/img/wn/${weatherIcon}.png`;
 
   var createParentDiv = document.createElement("div");
-  createParentDiv.className = "border border-dark";
+  createParentDiv.className = "border border-dark border-3 rounded p-3";
   results.appendChild(createParentDiv);
 
   var titleEl = document.createElement("h3");
@@ -119,7 +122,7 @@ function fiveDayWeather(data) {
   createContainerDiv.appendChild(containerHead);
 
   var rowDiv = document.createElement("div");
-  rowDiv.classList = "row";
+  rowDiv.classList = "row justify-content-md-center";
   createContainerDiv.appendChild(rowDiv);
 
   for (var i = 0; i < 5; i++) {
@@ -129,11 +132,9 @@ function fiveDayWeather(data) {
     var weatherIcon = data[i].weather[0].icon;
     var iconUrl = `http://openweathermap.org/img/wn/${weatherIcon}.png`;
 
-    console.log(weatherIcon);
-
     var createParentDiv = document.createElement("div");
     createParentDiv.className =
-      "col-2 mx-1 border border-1 bg-primary bg-opacity-75";
+      "col-2 mx-1 border border-1 bg-primary bg-opacity-75 m-3";
     rowDiv.appendChild(createParentDiv);
 
     var titleEl = document.createElement("h5");
@@ -157,10 +158,28 @@ function fiveDayWeather(data) {
   }
 }
 
-// append city name, temp, wind, humidity, and uv index to weather box
 // function to save past searches and hold then below searchbar
+function savePastSearch(city) {
+  for (var i = 0; i < 10; i++) {
+    localStorage.setItem("city" + [i], JSON.stringify(city));
+    pastSearches.push();
+  }
+  console.log(pastSearches);
+}
+
+function loadPastSearches() {
+  var searchEl = document.getElementById("#search");
+
+  var appendPastSearch = document.createElement("button");
+  appendPastSearch.classList = "btn btn-secondary";
+  appendPastSearch.textContent = "here";
+  searchEl.appendChild(appendPastSearch);
+}
 
 locationInputEl.addEventListener("click", function () {
   var x = $("#searchBar").val();
   storeCurrentWeather(x);
+  savePastSearch(x);
 });
+
+// loadPastSearches();
