@@ -170,11 +170,12 @@ function fiveDayWeather(data) {
 // function to save past searches and hold then below searchbar
 function savePastSearch(city) {
     //   window.localStorage.getItem("city");
-    console.log(city);
-    pastSearches.push(city);
-    localStorage.setItem("city", JSON.stringify(pastSearches));
-
-    console.log(pastSearches);
+    if (city) {
+        pastSearches.push(city);
+        localStorage.setItem("city", JSON.stringify(pastSearches));
+    } else {
+        window.alert("ERROR: You Didn't Search Anything");
+    }
 }
 
 function loadPastSearches() {
