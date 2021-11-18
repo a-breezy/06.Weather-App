@@ -1,7 +1,18 @@
 h1 {
-  text-align: center;
+    text-align: center;
 }
 
-.hide {
-  display: none;
+#recentSearches {
+    display: block;
+    margin: 0 auto;
+}
+
+.brk {
+    display: block;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.uvWidth {
+    width: 15%;
 }
